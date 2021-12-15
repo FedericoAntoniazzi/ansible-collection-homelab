@@ -67,6 +67,14 @@
     line: "Port {{ configured_port }}"
   notify: Restart sshd
 
+- name: Setup PubKey authentication
+  become: yes
+  lineinfile:
+    dest: "/etc/ssh/sshd_config"
+    regexp: "^PubkeyAuthentication"
+    line: "PubkeyAuthentication yes"
+  notify: Restart sshd
+
 # We notified "Restart sshd" if we modified the sshd config.
 # By calling flush_handlers, we make sure the handler is run *right now*
 - name: Ensure SSH is reloaded if need be
@@ -83,6 +91,3 @@
 # We run setup to gather facts here once the SSH port is set up.
 - name: Run deferred setup to gather facts
   setup:
-
-- name: Flushing handlers
-  meta: flush_handlers
