@@ -1,0 +1,15 @@
+---
+- name: Copy swapoff.service
+  become: true
+  copy:
+    src: swapoff.service
+    dest: /etc/systemd/system/swapoff.service
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - Enable swapoff.service
+    - Start swapoff.service
+
+- name: Flushing handlers
+  meta: flush_handlers

@@ -1,0 +1,39 @@
+---
+# tasks file for roles/system
+- name: Setup ssh
+  include_tasks: ssh.yml
+  tags:
+    - ssh
+
+- name: Setup timezone
+  include_tasks: timezone.yml
+  tags:
+    - timezone
+
+- name: Disable swap
+  include_tasks: swapoff.yml
+  tags:
+    - swapoff
+
+- name: Configure hosts file
+  include_tasks: host.yml
+  tags:
+    - host
+
+- name: Disable powerbutton to turn off the machine
+  include_tasks: powerbutton.yml
+  tags:
+    - powerbutton
+
+- name: Update and manage packages
+  include_tasks: packages.yml
+  tags:
+    - packages
+
+- name: Setup unattended upgrades
+  include_tasks: unattended-upgrades.yml
+  tags:
+    - unattended-upgrades
+
+- name: Flushing handlers
+  meta: flush_handlers

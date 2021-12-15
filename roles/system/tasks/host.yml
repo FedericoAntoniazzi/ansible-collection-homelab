@@ -1,0 +1,25 @@
+---
+- name: Set hostname
+  become: true
+  hostname:
+    name: "{{ hostname }}"
+  when: ansible_hostname != inventory_hostname
+
+
+- name: Update /etc/hosts
+  become: yes
+  blockinfile:
+    path: /etc/hosts
+    create: yes
+    mode: 644
+    block: |
+      # IPv4 configuration
+      127.0.0.1 localhost
+      127.0.1.1 {{ inventory_hostname }}
+
+      # IPv6 configuration
+      ::1 ip6-localhost ip6-loopback
+      fe00::0 ip-localnet
+      fe00::0 ip-mcastprefix
+      fe02::1 ip-allnodes
+      fe02::2 ip-allrouters

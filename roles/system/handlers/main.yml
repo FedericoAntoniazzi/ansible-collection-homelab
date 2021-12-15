@@ -1,0 +1,35 @@
+---
+# handlers file for roles/system
+- name: Restart cron
+  become: yes
+  service:
+    name: cron
+    state: restarted
+
+- name: Restart logind
+  become: yes
+  systemd:
+    name: systemd-logind.service
+    daemon_reload: yes
+    enabled: yes
+    state: restarted
+
+- name: Restart sshd
+  become: yes
+  systemd:
+    name: sshd
+    state: restarted
+
+- name: Enable swapoff.service
+  become: yes
+  systemd:
+    daemon_reload: true
+    name: swapoff.service
+    enabled: true
+    state: started
+
+- name: Start swapoff.service
+  become: yes
+  systemd:
+    name: swapoff.service
+    state: started

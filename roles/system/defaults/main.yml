@@ -1,0 +1,13 @@
+---
+# Set the port to be set instead 22
+# WARN: Overrides the ansible_port behavioral inventory parameters
+# DOCS: https://docs.ansible.com/ansible/latest/user_guide/intro_inventory.html#connecting-to-hosts-behavioral-inventory-parameters
+ansible_port: 7894
+
+# How many seconds should the playbook wait when checking
+# if the remote host is using port 22 or port defined in ansible_port
+ssh_timeout: 10
+
+# Hostname of the node
+# It's a single node setup
+hostname: homelab
