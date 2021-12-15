@@ -14,6 +14,7 @@
   include_tasks: swapoff.yml
   tags:
     - swapoff
+  when: disable_swap == True
 
 - name: Configure hosts file
   include_tasks: host.yml
