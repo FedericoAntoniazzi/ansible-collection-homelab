@@ -41,3 +41,4 @@
     mode: 0644
   with_items:
     - '        "${distro_id}:${distro_codename}-updates";'
+  when: ansible_distribution == 'Ubuntu'
