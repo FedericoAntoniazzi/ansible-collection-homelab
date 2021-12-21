@@ -1,4 +1,5 @@
 ---
+# Override system hostname only if a new hostname is set
 - name: Set hostname
   become: true
   hostname:

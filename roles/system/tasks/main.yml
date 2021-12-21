@@ -37,5 +37,11 @@
     - unattended-upgrades
   when: unattended_upgrades == True
 
+- name: Disable snap
+  include_tasks: disable_snap.yml
+  tags:
+    - disable_snap
+  when: disable_snap = True
+
 - name: Flushing handlers
   meta: flush_handlers

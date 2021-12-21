@@ -1,0 +1,34 @@
+---
+- name: Gather package facts
+  become: yes
+  package_facts:
+    manager: auto
+
+- name: Uninstall snapd if installed
+  become: yes
+  block:
+    - name: Purge snapd
+      apt:
+        name: snapd
+        state: absent
+        purge: yes
+    - name: Disable snapd services
+      systemd:
+        name: snapd
+        state: stopped
+        enabled: no
+    - name: Remove user snap folder
+      file:
+        path: "/home/{{ ansible_user_id }}/snap"
+        state: absent
+    - name: Remove system snap folders
+      file:
+        path: "{{ item }}"
+        state: absent
+      loop:
+        - "/snap"
+        - "/var/snap"
+        - "/var/lib/snapd"
+        - "/var/cache/snapd"
+        - "/usr/lib/snapd"
+  when: "'snapd' in ansible_facts.packages"
