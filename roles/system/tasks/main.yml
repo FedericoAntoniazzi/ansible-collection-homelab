@@ -14,7 +14,7 @@
   include_tasks: swapoff.yml
   tags:
     - swapoff
-  when: disable_swap == True
+  when: disable_swap|bool
 
 - name: Configure hosts file
   include_tasks: host.yml
@@ -35,13 +35,13 @@
   include_tasks: unattended-upgrades.yml
   tags:
     - unattended-upgrades
-  when: unattended_upgrades == True
+  when: unattended_upgrades|bool
 
 - name: Disable snap
   include_tasks: disable_snap.yml
   tags:
     - disable_snap
-  when: disable_snap = True
+  when: disable_snap|bool
 
 - name: Flushing handlers
   meta: flush_handlers

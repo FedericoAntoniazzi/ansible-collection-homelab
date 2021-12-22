@@ -9,11 +9,13 @@ ansible_port: 7894
 ssh_timeout: 10
 
 # Hostname of the node
-# It's a single node setup
 hostname: homelab
 
 # Whether to install and setup unattended upgrades
 unattended_upgrades: no
+
+# Whether disable swap
+disable_swap: no
 
 # Whether disable snapd
 disable_snap: no
