@@ -17,3 +17,6 @@ unattended_upgrades: no
 
 # Whether disable snapd
 disable_snap: no
+
+# Default timezone
+timezone: "Europe/Rome"
