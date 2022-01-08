@@ -3,10 +3,6 @@
   become: yes
   service_facts:
 
-- name: debug
-  debug:
-    var: services
-
 - name: Disable wpa supplicant
   become: yes
   systemd:
