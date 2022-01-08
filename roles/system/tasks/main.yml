@@ -43,5 +43,17 @@
     - disable_snap
   when: disable_snap|bool
 
+- name: Disable bluetooth
+  include_tasks: disable_bluetooth.yml
+  tags:
+    - disable_bluetooth
+  when: disable_bluetooth|bool
+
+- name: Disable wifi
+  include_tasks: disable_wifi.yml
+  tags:
+    - disable_wifi
+  when: disable_wifi|bool
+
 - name: Flushing handlers
   meta: flush_handlers

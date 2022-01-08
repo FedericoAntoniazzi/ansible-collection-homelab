@@ -1,0 +1,16 @@
+---
+- name: Gather service facts
+  become: yes
+  service_facts:
+
+- name: debug
+  debug:
+    var: services
+
+- name: Disable wpa supplicant
+  become: yes
+  systemd:
+    name: wpa_supplicant
+    enabled: no
+    state: stopped
+  when: "'wpa_supplicant.service' in services"

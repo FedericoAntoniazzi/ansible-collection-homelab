@@ -20,5 +20,11 @@ disable_swap: no
 # Whether disable snapd
 disable_snap: no
 
+# Whether disable bluetooth
+disable_bluetooth: no
+
+# Whether disable wifi
+disable_wifi: no
+
 # Default timezone
 timezone: "Europe/Rome"

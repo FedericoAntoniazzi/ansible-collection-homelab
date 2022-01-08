@@ -1,0 +1,27 @@
+---
+- name: Gather service facts
+  become: yes
+  service_facts:
+
+- name: Disable bluetooth service
+  become: yes
+  systemd:
+    name: bluetooth
+    enabled: no
+    state: stopped
+
+# If a raspberry PI, disable hciuart service too
+- name: Disable hciuart service
+  become: yes
+  systemd:
+    name: hciuart
+    enabled: no
+    state: stopped
+  when: "'hciuart.service' in services"
+
+- name: Uninstall bluetooth related packages
+  become: yes
+  apt:
+    name: bluez
+    state: absent
+    purge: yes
