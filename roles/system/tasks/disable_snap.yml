@@ -23,7 +23,7 @@
         name: snapd
         state: stopped
         enabled: no
-      when: "'snapd' in services"
+      when: "'snapd.service' in services"
     - name: Remove user snap folder
       file:
         path: "/home/{{ ansible_user_id }}/snap"
