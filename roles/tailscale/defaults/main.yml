@@ -1,0 +1,6 @@
+---
+# Base URL for tailscale repository
+tailscale_package_url: https://pkgs.tailscale.com
+
+# Tailscale branch to install
+tailscale_branch: stable

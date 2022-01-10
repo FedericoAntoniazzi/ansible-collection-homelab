@@ -1,0 +1,4 @@
+---
+# Authentication key to authenticate to Tailscale
+# Generate one at https://login.tailscale.com/admin/settings/keys
+# tailscale_auth_key: ""

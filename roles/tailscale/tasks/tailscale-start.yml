@@ -1,0 +1,24 @@
+---
+- name: Run and enable systemd service
+  become: yes
+  systemd:
+    name: tailscaled
+    state: started
+    enabled: yes
+
+- name: Get tailscale status
+  become: yes
+  command: "tailscale status"
+  register: tailscale_status
+  changed_when: false
+  failed_when:
+    - tailscale_status.rc != 0
+    - "'Logged out.' not in tailscale_status.stdout"
+
+# Logs are disabled to avoid printing the auth_key somewhere
+- name: Bring tailscale up
+  become: yes
+  no_log: yes
+  command: "tailscale up --authkey {{ tailscale_auth_key }}"
+  when: "'Logged out.' in tailscale_status.stdout"
+

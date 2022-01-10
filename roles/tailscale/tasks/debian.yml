@@ -1,0 +1,46 @@
+---
+- name: Install requirements
+  become: yes
+  apt:
+    pkg:
+      - gpg
+      - lsb-release
+      - apt-transport-https
+
+- name: Import tailscale GPG key (Debian)
+  become: yes
+  block:
+    - name: Import GPG Key (Debian)
+      get_url:
+        url: "{{ tailscale_package_url }}/{{ tailscale_branch }}/{{ ansible_lsb.id | lower }}/{{ ansible_lsb.codename }}.noarmor.gpg"
+        dest: /usr/share/keyrings/tailscale-archive-keyring.gpg
+        mode: "644"
+    - name: Import apt source (Debian)
+      get_url:
+        url: "{{ tailscale_package_url }}/{{ tailscale_branch }}/{{ ansible_lsb.id | lower }}/{{ ansible_lsb.codename }}.tailscale-keyring.list"
+        dest: /etc/apt/sources.list.d/tailscale.list
+        mode: "644"
+  when:
+    - ansible_lsb.id == "Debian"
+
+- name: Import tailscale GPG key (Raspbian/RpiOS)
+  become: yes
+  block:
+    - name: Import GPG Key (Raspbian)
+      apt_key:
+        url: "{{ tailscale_package_url }}/{{ tailscale_branch }}/{{ ansible_lsb.id | lower }}/{{ ansible_lsb.codename }}.gpg"
+        state: present
+    - name: Import apt source (Raspbian)
+      get_url:
+        url: "{{ tailscale_package_url }}/{{ tailscale_branch }}/{{ ansible_lsb.id | lower }}/{{ ansible_lsb.codename }}.list"
+        dest: /etc/apt/sources.list.d/tailscale.list
+        mode: "644"
+  when:
+    - ansible_lsb.id == "Raspbian"
+
+- name: Install tailscale
+  become: yes
+  apt:
+    name: tailscale
+    state: latest
+    update_cache: yes

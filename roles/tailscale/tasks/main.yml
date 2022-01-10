@@ -1,0 +1,24 @@
+---
+- name: Tailscale Auth Key Required
+  fail:
+    msg: >
+      You must include a Tailscale auth key.
+      To do so, set a `tailscale_auth_key` variable.
+      You can create this key from: https://login.tailscale.com/admin/keys.
+  when: >
+    tailscale_auth_key is undefined or
+    tailscale_auth_key|length == 0
+
+# 2022-01-09: Tailscale supports debian from version 9 (Stretch)
+# 
+# For more info: https://tailscale.com/download/linux
+- name: Configuration for debian based hosts
+  include_tasks: debian.yml
+  when:
+    - ansible_distribution == 'Debian' 
+    - ansible_distribution_version|int >= 9
+  tags: tailscale
+
+- name: Start tailscale
+  include_tasks: tailscale-start.yml
+  tags: tailscale
