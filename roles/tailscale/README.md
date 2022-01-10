@@ -26,7 +26,7 @@ Example Playbook
 
 ```
 - hosts: servers
-  gather_facts: no
+  gather_facts: yes
   vars:
     tailscale_auth_key: "tskey-"
   collections:
