@@ -1,0 +1,43 @@
+---
+- name: Tailscale domain required for certificates
+  fail:
+    msg: >
+      In order to generate a certificate, tailscale requires a domain name to be set in the admin console.
+      To enable it go to the Settings page of the admin console, select “Configure HTTPS” and follow the steps.
+      Set the choosen domain name as `tailscale_domain` variable.
+      Reference: https://tailscale.com/blog/tls-certs/
+  when: >
+    tailscale_domain is undefined or
+    tailscale_domain|length == 0
+
+- name: Retrieving host FQDN
+  set_fact:
+    tailscale_fqdn: "{{ ansible_hostname|lower }}.{{ tailscale_domain|lower }}"
+
+- name: Generate TLS certificates
+  become: yes
+  command: "tailscale cert {{ ansible_hostname|lower }}.{{ tailscale_domain|lower }}"
+  register: tailscale_cert_result
+  changed_when: false
+  failed_when:
+    - "'Error' in tailscale_cert_result.stdout"
+
+- name: Import TLS certificate in the local machine
+  become: yes
+  fetch:
+    src: "{{ item }}"
+    dest: "certs/{{ item }}"
+    flat: yes
+    fail_on_missing: yes
+  with_items:
+    - "{{ tailscale_fqdn }}.key"
+    - "{{ tailscale_fqdn }}.crt"
+
+- name: Delete remote certificates
+  become: yes
+  file:
+    path: "{{ item }}"
+    state: absent
+  with_items:
+    - "{{ tailscale_fqdn }}.key"
+    - "{{ tailscale_fqdn }}.crt"

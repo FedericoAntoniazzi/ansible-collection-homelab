@@ -22,3 +22,10 @@
 - name: Start tailscale
   include_tasks: tailscale-start.yml
   tags: tailscale
+
+- name: Generating TLS certificates for HTTPS
+  include_tasks: tls-certificates.yml
+  when: tailscale_generate_certs|bool
+  tags:
+    - tailscale
+    - tailscale-tls
