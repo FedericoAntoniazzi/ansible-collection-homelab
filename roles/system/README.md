@@ -29,12 +29,17 @@ None.
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
-
-    - hosts: servers
-      gather_facts: no
-      roles:
-         - federicoantoniazzi.homelab.system
+```
+- hosts: servers
+  gather_facts: no
+  vars:
+    ansible_port: 2222
+    timezone: "Europe/Rome"
+  collections:
+    - federicoantoniazzi.homelab
+  roles:
+    - system
+```
 
 License
 -------
