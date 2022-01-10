@@ -9,6 +9,7 @@
     name: bluetooth
     enabled: no
     state: stopped
+  when: "'bluetooth.service' in services"
 
 # If a raspberry PI, disable hciuart service too
 - name: Disable hciuart service
