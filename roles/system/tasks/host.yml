@@ -1,7 +1,0 @@
----
-# Override system hostname only if a new hostname is set
-- name: Set hostname
-  become: true
-  hostname:
-    name: "{{ hostname }}"
-  when: ansible_hostname != inventory_hostname
